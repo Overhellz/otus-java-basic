@@ -6,10 +6,8 @@ public class Homework02 {
      * Метод печатает в консоль str строку count раз
      */
     public static void printStringCountTimes(int count, String str) {
-        if (count > 0) {
-            for (int i = 0; i < count; i++) {
-                System.out.println(str);
-            }
+        for (int i = 0; i < count; i++) {
+            System.out.println(str);
         }
     }
 
@@ -41,10 +39,12 @@ public class Homework02 {
      * Метод принимает массив array и заполняет его значением newValue
      */
     public static void fillArray(int newValue, int[] array) {
-        if (array != null) {
-            for (int i = 0; i < array.length; i++) {
-                array[i] = newValue;
-            }
+        if (array == null) {
+            return;
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = newValue;
         }
     }
 
