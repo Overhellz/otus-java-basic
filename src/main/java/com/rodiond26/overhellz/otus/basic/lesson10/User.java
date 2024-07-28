@@ -8,12 +8,12 @@ public class User {
     /**
      * Фамилия
      */
-    private String lastname;
+    private String lastName;
 
     /**
      * Имя
      */
-    private String firstname;
+    private String firstName;
 
     /**
      * Отчество
@@ -33,44 +33,28 @@ public class User {
     public User() {
     }
 
-    public User(String lastname, String firstname, String middleName, int birthYear, String email) {
-        this.lastname = lastname;
-        this.firstname = firstname;
+    public User(String lastName, String firstName, String middleName, int birthYear, String email) {
+        this.lastName = lastName;
+        this.firstName = firstName;
         this.middleName = middleName;
         this.birthYear = birthYear;
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-
-        String sb = "ФИО: " +
-                toStringNullable(this.lastname) +
-                toStringNullable(this.firstname) +
-                toStringNullable(this.firstname) +
-                "\n" +
-                "Год рождения: " +
-                this.birthYear +
-                "\n" +
-                "e-mail: " +
-                toStringNullable(this.email);
-        return sb;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getMiddleName() {
@@ -97,7 +81,15 @@ public class User {
         this.email = email;
     }
 
-    private String toStringNullable(String str) {
-        return str == null ? "<null>" : str;
+    @Override
+    public String toString() {
+        return String.format(
+                "ФИО: %s %s %s\nГод рождения: %d\ne-mail: %s",
+                this.lastName,
+                this.firstName,
+                this.middleName,
+                this.birthYear,
+                this.email
+        );
     }
 }
