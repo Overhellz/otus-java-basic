@@ -100,10 +100,6 @@ public class SimpleBox {
         return isOpen;
     }
 
-    public void setOpen(boolean open) {
-        isOpen = open;
-    }
-
     public String getNestedObject() {
         return nestedObject;
     }

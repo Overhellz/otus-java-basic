@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 
     private String createRandomString(int length) {
         if (length < 1) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Длина строки должна быть больше 0");
         }
 
         char[] charArray = new char[length];
