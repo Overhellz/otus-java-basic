@@ -1,4 +1,4 @@
-package com.rodiond26.overhellz.otus.basic.lesson11;
+package com.rodiond26.overhellz.otus.basic.lesson11.homework.exception;
 
 public class AnimalCannotRunException extends RuntimeException {
 

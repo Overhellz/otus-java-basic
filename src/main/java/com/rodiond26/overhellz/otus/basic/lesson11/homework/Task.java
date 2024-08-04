@@ -1,4 +1,4 @@
-package com.rodiond26.overhellz.otus.basic.lesson11;
+package com.rodiond26.overhellz.otus.basic.lesson11.homework;
 
 public class Task {
 //    Домашнее задание

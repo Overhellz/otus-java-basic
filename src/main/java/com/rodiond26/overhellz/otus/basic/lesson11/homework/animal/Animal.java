@@ -1,5 +1,7 @@
-package com.rodiond26.overhellz.otus.basic.lesson11;
+package com.rodiond26.overhellz.otus.basic.lesson11.homework.animal;
 
+import com.rodiond26.overhellz.otus.basic.lesson11.homework.exception.AnimalCannotRunException;
+import com.rodiond26.overhellz.otus.basic.lesson11.homework.exception.AnimalCannotSwimException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -56,6 +58,10 @@ public abstract class Animal {
      * @return время
      */
     public float run(int distance) {
+        if (distance < 0) {
+            throw new IllegalArgumentException(""); // TODO fix
+        }
+
         if (runSpeed <= 0 || runningEndurance <= 0) {
             throw new AnimalCannotRunException("Животное не умеет бегать");
         }
@@ -85,6 +91,10 @@ public abstract class Animal {
      * @return время
      */
     public float swim(int distance) {
+        if (distance < 0) {
+            throw new IllegalArgumentException(""); // TODO fix
+        }
+
         if (swimSpeed <= 0 || swimmingEndurance <= 0) {
             throw new AnimalCannotSwimException("Животное не умеет плавать");
         }

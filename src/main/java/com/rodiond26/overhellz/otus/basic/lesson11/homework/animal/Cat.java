@@ -1,14 +1,15 @@
-package com.rodiond26.overhellz.otus.basic.lesson11;
+package com.rodiond26.overhellz.otus.basic.lesson11.homework.animal;
 
 public class Cat extends Animal {
 
     public static final int CAT_SWIMMING_ENDURANCE = 0;
+    public static final int CAT_SWIMMING_SPEED = 0;
 
     public Cat(String name, int runSpeed, int endurance) {
         super(
                 name,
                 runSpeed,
-                0,
+                CAT_SWIMMING_SPEED,
                 endurance,
                 false,
                 ANIMAL_RUNNING_ENDURANCE,
