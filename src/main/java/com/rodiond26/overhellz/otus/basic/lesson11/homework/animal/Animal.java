@@ -1,14 +1,12 @@
 package com.rodiond26.overhellz.otus.basic.lesson11.homework.animal;
 
-import com.rodiond26.overhellz.otus.basic.lesson11.homework.exception.AnimalCannotRunException;
-import com.rodiond26.overhellz.otus.basic.lesson11.homework.exception.AnimalCannotSwimException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import static com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter.log;
 
-@Getter
 @AllArgsConstructor
+@Getter
 public abstract class Animal {
 
     /**
@@ -24,12 +22,12 @@ public abstract class Animal {
     /**
      * Скорость бега, м/с
      */
-    int runSpeed;
+    int runningSpeed;
 
     /**
      * Скорость плавания, м/с
      */
-    int swimSpeed;
+    int swimmingSpeed;
 
     /**
      * Выносливость, усл. ед.
@@ -59,26 +57,29 @@ public abstract class Animal {
      */
     public float run(int distance) {
         if (distance < 0) {
-            throw new IllegalArgumentException(""); // TODO fix
+            throw new IllegalArgumentException("Дистанция должна быть больше ноля");
         }
 
-        if (runSpeed <= 0 || runningEndurance <= 0) {
-            throw new AnimalCannotRunException("Животное не умеет бегать");
+        if (runningSpeed <= 0 || runningEndurance <= 0) {
+            log("Животное не умеет бегать");
+            return -1.0f;
         }
 
         if (isTired) {
             log("Животное устало и не может бежать");
+            endurance = 0;
             return -1;
         }
 
         int enduranceForDistance = distance / runningEndurance;
         if (enduranceForDistance >= endurance) {
             isTired = true;
-            log("Животное устало и не может бежать");
+            endurance = 0;
+            log("Животное устало и не может бегать");
             return -1;
         }
 
-        float time = (float) distance / runSpeed;
+        float time = (float) distance / runningSpeed;
         endurance -= enduranceForDistance;
         log(String.format("Животное пробежало и потратило %d ед. выносливости за %f секунд", endurance, time));
         return time;
@@ -92,45 +93,35 @@ public abstract class Animal {
      */
     public float swim(int distance) {
         if (distance < 0) {
-            throw new IllegalArgumentException(""); // TODO fix
+            throw new IllegalArgumentException("Дистанция должна быть больше ноля");
         }
 
-        if (swimSpeed <= 0 || swimmingEndurance <= 0) {
-            throw new AnimalCannotSwimException("Животное не умеет плавать");
+        if (swimmingSpeed <= 0 || swimmingEndurance <= 0) {
+            log("Животное не умеет плавать");
+            return -1.0f;
         }
 
         if (isTired) {
             log("Животное устало и не может плавать");
-            return -1;
+            return -1.0f;
         }
 
         int enduranceForDistance = distance / swimmingEndurance;
         if (enduranceForDistance >= endurance) {
+            endurance = 0;
             isTired = true;
             log("Животное устало и не может плавать");
             return -1;
         }
 
-        float time = (float) distance / runSpeed;
+        float time = (float) distance / runningSpeed;
         endurance -= enduranceForDistance;
         log(String.format("Животное проплыло и потратило %d ед. выносливости за %f секунд", endurance, time));
         return time;
     }
 
-    public void info() {
-        log(this.toString());
-    }
-
-    @Override
-    public String toString() { // TODO fix
-        return "Animal{" +
-                "name='" + name + '\'' +
-                ", runSpeed=" + runSpeed +
-                ", swimSpeed=" + swimSpeed +
-                ", endurance=" + endurance +
-                ", isTired=" + isTired +
-                ", runningEndurance=" + runningEndurance +
-                ", swimmingEndurance=" + swimmingEndurance +
-                '}';
-    }
+    /**
+     * Возвращает информацию о состоянии животного
+     */
+    public abstract void info();
 }

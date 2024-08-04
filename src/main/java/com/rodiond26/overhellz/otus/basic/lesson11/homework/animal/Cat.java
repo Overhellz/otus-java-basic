@@ -5,10 +5,10 @@ public class Cat extends Animal {
     public static final int CAT_SWIMMING_ENDURANCE = 0;
     public static final int CAT_SWIMMING_SPEED = 0;
 
-    public Cat(String name, int runSpeed, int endurance) {
+    public Cat(String name, int runningSpeed, int endurance) {
         super(
                 name,
-                runSpeed,
+                runningSpeed,
                 CAT_SWIMMING_SPEED,
                 endurance,
                 false,
@@ -18,28 +18,18 @@ public class Cat extends Animal {
     }
 
     @Override
-    public String toString() {
-        return "Cat{" +
-                "name='" + name + '\'' +
-                ", runSpeed=" + runSpeed +
-                ", swimSpeed=" + swimSpeed +
-                ", endurance=" + endurance +
-                ", isTired=" + isTired +
-                ", runningEndurance=" + runningEndurance +
-                ", swimmingEndurance=" + swimmingEndurance +
-                '}';
+    public void info() {
+        System.out.println(this);
     }
 
-//    @Override
-//    public String toString() {
-//        return String.format(
-//                "Коробка: длина = %d, ширина = %d, высота = %d, цвет = %s, открыта = %s\nПредмет в коробке: %s",
-//                this.length,
-//                this.width,
-//                this.height,
-//                this.color,
-//                this.isOpen ? "да" : "нет",
-//                this.nestedObject == null ? "отсутствует" : this.nestedObject
-//        );
-//    }
+    @Override
+    public String toString() {
+        return String.format(
+                "Кот: имя - %s, скорость бега - %d, не умеет плавать, выносливость - %d, устал - %s",
+                this.name,
+                this.runningSpeed,
+                this.endurance,
+                this.isTired ? "да" : "нет"
+        );
+    }
 }
