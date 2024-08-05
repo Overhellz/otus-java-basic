@@ -1,5 +1,7 @@
 package com.rodiond26.overhellz.otus.basic.lesson10;
 
+import static com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter.log;
+
 public class SimpleBox {
 
     private final int length;
@@ -115,9 +117,5 @@ public class SimpleBox {
                 this.isOpen ? "да" : "нет",
                 this.nestedObject == null ? "отсутствует" : this.nestedObject
         );
-    }
-
-    private void log(String message) {
-        System.out.println(message);
     }
 }
