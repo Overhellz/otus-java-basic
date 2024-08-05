@@ -42,12 +42,12 @@ public abstract class Animal {
     /**
      * Затраты выносливости животного во время бега, усл. ед.
      */
-    int runningEndurance;
+    int runningEnduranceCost;
 
     /**
      * Затраты выносливости животного во время плавания, усл. ед.
      */
-    int swimmingEndurance;
+    int swimmingEnduranceCost;
 
     /**
      * Возвращает время, за которое животное пробежало расстояние distance
@@ -60,7 +60,7 @@ public abstract class Animal {
             throw new IllegalArgumentException("Дистанция должна быть больше ноля");
         }
 
-        if (runningSpeed <= 0 || runningEndurance <= 0) {
+        if (runningSpeed <= 0 || runningEnduranceCost <= 0) {
             log("Животное не умеет бегать");
             return -1.0f;
         }
@@ -71,7 +71,7 @@ public abstract class Animal {
             return -1;
         }
 
-        int enduranceForDistance = distance / runningEndurance;
+        int enduranceForDistance = distance / runningEnduranceCost;
         if (enduranceForDistance >= endurance) {
             isTired = true;
             endurance = 0;
@@ -96,7 +96,7 @@ public abstract class Animal {
             throw new IllegalArgumentException("Дистанция должна быть больше ноля");
         }
 
-        if (swimmingSpeed <= 0 || swimmingEndurance <= 0) {
+        if (swimmingSpeed <= 0 || swimmingEnduranceCost <= 0) {
             log("Животное не умеет плавать");
             return -1.0f;
         }
@@ -106,7 +106,7 @@ public abstract class Animal {
             return -1.0f;
         }
 
-        int enduranceForDistance = distance / swimmingEndurance;
+        int enduranceForDistance = distance / swimmingEnduranceCost;
         if (enduranceForDistance >= endurance) {
             endurance = 0;
             isTired = true;
