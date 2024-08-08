@@ -23,13 +23,14 @@ public class Homework02 {
      * Метод возвращает сумму всех элементов массива array, которые больше value
      */
     public static int sumArrayIf(int[] array, int value) {
-        int sum = 0;
+        if (array == null) {
+            return 0;
+        }
 
-        if (array != null) {
-            for (int elem : array) {
-                if (elem > value) {
-                    sum += elem;
-                }
+        int sum = 0;
+        for (int elem : array) {
+            if (elem > value) {
+                sum += elem;
             }
         }
         return sum;
