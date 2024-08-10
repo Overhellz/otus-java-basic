@@ -1,8 +1,13 @@
 package com.rodiond26.overhellz.otus.basic.lesson12.homework;
 
+import lombok.Getter;
+
+import static com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter.log;
+
 /**
  * Тарелка
  */
+@Getter
 public class Plate {
 
     /**
@@ -29,7 +34,7 @@ public class Plate {
      * @param volume количество еды, ед.
      */
     public void addFood(int volume) {
-        if (maxCapacity < 0) {
+        if (volume < 0) {
             throw new IllegalArgumentException("Нельзя добавить еду меньше ноля");
         }
 
@@ -39,11 +44,23 @@ public class Plate {
         }
     }
 
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
+    /**
+     * Забрать еду из тарелки
+     *
+     * @param volume количество еды, ед.
+     */
+    public boolean pickUpFood(int volume) {
+        if (volume < 0) {
+            throw new IllegalArgumentException("Нельзя забрать еды из тарелки меньше ноля");
+        }
 
-    public int getCurrentCapacity() {
-        return currentCapacity;
+        this.currentCapacity -= volume;
+        if (this.currentCapacity < 0) {
+            this.currentCapacity = 0;
+            log("Из тарелки забрали всю еду. Тарелка пуста");
+            return false;
+        }
+        log("Из тарелки забрали " + volume + " ед. еды. В тарелке осталось " + this.currentCapacity + " ед. еды");
+        return true;
     }
 }
