@@ -5,6 +5,11 @@ import com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType;
 public interface Transport {
 
     /**
+     * Возвращает наименование транспорта
+     */
+    String getType();
+
+    /**
      * Возвращает результат перемещения на транспорте
      * на расстояние distance по местности типа terrainType
      *

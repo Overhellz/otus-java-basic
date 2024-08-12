@@ -1,41 +1,32 @@
 package com.rodiond26.overhellz.otus.basic.lesson13.homework;
 
-import com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType;
-import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.AbstractCar;
-import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.Car;
-import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.CrossCountryVehicle;
+import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.vehicle.Car;
 
-import java.util.Arrays;
+import static com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType.PLAIN;
+import static com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType.SWAMP;
 
 public class Homework07 {
+
     /*
-      Реализуйте в вашем приложении классы Машина, Лошадь, Велосипед, Вездеход
-
-     Человек должен иметь возможность сесть на любой из этих видов транспорта,
-      встать с него, или переместиться на некоторое расстояние
-       (при условии что он находится на каком-либо транспорте)
-
-     При попытке выполнить перемещение у человека, не использующего транспорт,
-      считаем что он просто идет указанное расстояние пешком
-
-     При перемещении Машина и Вездеход тратят бензин, который у них ограничен.
-     Лошадь тратит силы.
-     Велосипед может использоваться без ограничений (можете для усложнения
-     велосипедом тратить силы “водителя”).
-     При выполнении действия результат должен быть отпечатан в консоль
-
-     У каждого вида транспорта есть местности по которым он не может перемещаться:
-
-      лошадь и велосипед - болото,
-
-      */
+     * Реализуйте в вашем приложении классы Машина, Лошадь, Велосипед, Вездеход
+     * Каждый из классов должен предоставлять возможность перемещаться на определенное расстояние с указанием типа местности
+     * В приложении должны быть типы местности: густой лес, равнина, болото
+     * Человек должен иметь возможность сесть на любой из этих видов транспорта, встать с него, или переместиться на некоторое расстояние (при условии что он находится на каком-либо транспорте)
+     * При попытке выполнить перемещение у человека, не использующего транспорт, считаем что он просто идет указанное расстояние пешком
+     * При перемещении Машина и Вездеход тратят бензин, который у них ограничен. Лошадь тратит силы. Велосипед может использоваться без ограничений (можете для усложнения велосипедом тратить силы “водителя”). При выполнении действия результат должен быть отпечатан в консоль
+     * У каждого вида транспорта есть местности по которым он не может перемещаться: машина - густой лес и болото, лошадь и велосипед - болото, вездеход - нет ограничений
+     * При попытке переместиться должен быть возвращен результат true/false - удалось ли выполнить действие
+     */
 
     public static void main(String[] args) {
-        AbstractCar car1 = new Car(123);
-        AbstractCar car2 = new CrossCountryVehicle(4444);
+        Car car = new Car(100, 10);
+        Human human = new Human("Mark");
+        human.getOn(car);
+        human.drive(10, PLAIN);
+        human.getOutOfTransport();
 
-
-        System.out.println(car1.drive(10, TerrainType.SWAMP));
-        System.out.println(car2.drive(10, TerrainType.SWAMP));
+        human.getOn(car);
+        human.drive(10, SWAMP);
+        human.getOutOfTransport();
     }
 }

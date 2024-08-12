@@ -1,13 +1,13 @@
-package com.rodiond26.overhellz.otus.basic.lesson13.homework.transport;
+package com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.vehicle;
 
 import com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType;
+import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.Transport;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Вездеход
  */
-public class CrossCountryVehicle extends AbstractCar implements Transport {
+public class CrossCountryVehicle extends AbstractVehicle implements Transport {
 
     /**
      * Список типов местности, по которым может перемещаться вездеход
@@ -17,6 +17,11 @@ public class CrossCountryVehicle extends AbstractCar implements Transport {
 
     public CrossCountryVehicle(int fuelAmount) {
          super(fuelAmount);
+    }
+
+    @Override
+    public String getType() {
+        return ""; // TODO fix
     }
 
     @Override
