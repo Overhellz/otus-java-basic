@@ -18,14 +18,14 @@ public class Plate {
     /**
      * Текущее количество еды, ед.
      */
-    private int currentCapacity;
+    private int foodAmount;
 
     public Plate(int maxCapacity) {
         if (maxCapacity <= 0) {
             throw new IllegalArgumentException("Максимальное количество еды не может быть меньше или равно нолю");
         }
         this.maxCapacity = maxCapacity;
-        this.currentCapacity = maxCapacity;
+        this.foodAmount = maxCapacity;
     }
 
     /**
@@ -38,29 +38,30 @@ public class Plate {
             throw new IllegalArgumentException("Нельзя добавить еду меньше ноля");
         }
 
-        this.currentCapacity += volume;
-        if (this.currentCapacity > this.maxCapacity) {
-            this.currentCapacity = this.maxCapacity;
+        this.foodAmount += volume;
+        if (this.foodAmount > this.maxCapacity) {
+            this.foodAmount = this.maxCapacity;
         }
     }
 
     /**
-     * Забрать еду из тарелки
+     * Возвращает наличие еды в тарелке после того, как из тарелки взяли еду
      *
      * @param volume количество еды, ед.
+     * @return В тарелке осталась еда (да/нет)
      */
     public boolean pickUpFood(int volume) {
         if (volume < 0) {
             throw new IllegalArgumentException("Нельзя забрать еды из тарелки меньше ноля");
         }
 
-        this.currentCapacity -= volume;
-        if (this.currentCapacity < 0) {
-            this.currentCapacity = 0;
+        this.foodAmount -= volume;
+        if (this.foodAmount < 0) {
+            this.foodAmount = 0;
             log("Из тарелки забрали всю еду. Тарелка пуста");
             return false;
         }
-        log("Из тарелки забрали " + volume + " ед. еды. В тарелке осталось " + this.currentCapacity + " ед. еды");
+        log("Из тарелки забрали " + volume + " ед. еды. В тарелке осталось " + this.foodAmount + " ед. еды");
         return true;
     }
 }

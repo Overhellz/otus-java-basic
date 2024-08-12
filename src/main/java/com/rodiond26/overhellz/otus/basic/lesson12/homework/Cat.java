@@ -14,8 +14,7 @@ public class Cat {
      * Имя кота
      */
     @Getter
-    @Setter
-    private String name;
+    private final String name;
 
     /**
      * Аппетит кота
@@ -47,10 +46,11 @@ public class Cat {
             return;
         }
 
-        if (this.appetite <= plate.getCurrentCapacity()) {
+        if (this.appetite <= plate.getFoodAmount()) {
+            boolean isNotEmptyPlate = plate.pickUpFood(this.appetite);
             this.isFull = true;
-            plate.pickUpFood(this.appetite);
             log("Кот съел " + this.appetite + " ед. еды и теперь сыт");
+            log("В тарелке осталась еда: " + (isNotEmptyPlate ? "да" : "нет"));
         } else {
             this.isFull = false;
             log("Коту не хватило еды в тарелке, и теперь кот голоден");
