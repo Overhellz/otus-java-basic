@@ -26,8 +26,8 @@ public interface Transport {
      * @param terrainType          тип местности, который проверяется
      * @return есть/нет возможности проехать
      */
-    default boolean isPossibleToDrive(TerrainType[] possibleTerrainTypes,
-                                      TerrainType terrainType) {
+    default boolean isPossibleToMove(TerrainType[] possibleTerrainTypes,
+                                     TerrainType terrainType) {
         if (possibleTerrainTypes == null
                 || possibleTerrainTypes.length == 0
                 || terrainType == null) {

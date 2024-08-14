@@ -31,4 +31,9 @@ public class Bike implements Transport {
     public boolean drive(int distance, TerrainType terrainType) {
         return false;
     }
+
+    @Override
+    public int maxDistance(int consumption) {
+        return 0;
+    }
 }

@@ -31,21 +31,21 @@ public class Car extends AbstractVehicle implements Transport {
 
     @Override
     public boolean drive(int distance, TerrainType terrainType) {
-        if (!isPossibleToDrive(this.possibleTerrainTypes, terrainType)) {
+        if (!isPossibleToMove(this.possibleTerrainTypes, terrainType)) {
             log("Машина не может проехать по местности " + terrainType.getType());
             return false;
         }
 
-        double maxDriveDistance = fuelAmount * fuelPerKilometer;
-        if (maxDriveDistance < distance) {
-            log("У машины не хватит топлива, чтобы проехать " + distance + "км");
+        if ((this.maxDistance() - distance) < 0) {
+            log("У машины не хватит топлива, чтобы проехать [" + distance + " км]");
             return false;
         }
+        log(String.format("Машина может проехать [%.1f км]", this.maxDistance()));
 
-        fuelAmount -= distance / fuelPerKilometer;
-        log("Машина проехала расстояние " + distance
-                + "км по местности " + terrainType.getType()
-                + ", осталось топлива " + fuelAmount);
+        fuelAmount -= this.getFuelConsumption(distance);
+        log(String.format(
+                "Машина проехала расстояние [%d км] по местности %s, осталось топлива [%.1f л]",
+                distance, terrainType.getType(), fuelAmount));
         return true;
     }
 }

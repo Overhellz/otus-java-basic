@@ -29,7 +29,7 @@ public class Horse implements Transport {
 
     @Override
     public boolean drive(int distance, TerrainType terrainType) {
-        if (!isPossibleToDrive(this.possibleTerrainTypes, terrainType)) {
+        if (!isPossibleToMove(this.possibleTerrainTypes, terrainType)) {
             return false;
         }
 
