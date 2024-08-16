@@ -15,7 +15,7 @@ public class ListUtil {
      * Возвращает список целочисленных значений от min до max с шагом 1
      */
     public List<Integer> makeSequence(int min, int max) {
-        if (min < max) {
+        if (min > max) {
             return Collections.emptyList();
         }
 
