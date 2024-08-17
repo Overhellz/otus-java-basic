@@ -47,5 +47,8 @@ public class Homework09 {
 
         List<Employee> employeesOlderAverageAge = employeeUtil.getEmployeesOlderAverageAge(employees);
         log(employeesOlderAverageAge.toString());
+
+        Employee youngestEmployee = employeeUtil.getYoungest(employees);
+        log(String.valueOf(youngestEmployee));
     }
 }

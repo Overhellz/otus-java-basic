@@ -71,7 +71,6 @@ public class ListUtil {
         }
 
         for (int i = 0; i < list.size(); i++) {
-            // Если элемент списка равен null, то принимаем значение элемента равным 0 и добавляем к нему delta
             if (list.get(i) == null) {
                 list.set(i, delta);
                 continue;
