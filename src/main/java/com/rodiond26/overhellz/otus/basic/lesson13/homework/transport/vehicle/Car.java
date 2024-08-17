@@ -48,4 +48,9 @@ public class Car extends AbstractVehicle implements Transport {
                 distance, terrainType.getType(), fuelAmount));
         return true;
     }
+
+    @Override
+    public double maxDistance() {
+        return fuelAmount / fuel100km * DISTANCE_100_KM;
+    }
 }

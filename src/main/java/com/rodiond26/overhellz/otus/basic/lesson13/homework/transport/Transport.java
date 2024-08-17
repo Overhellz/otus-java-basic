@@ -2,7 +2,15 @@ package com.rodiond26.overhellz.otus.basic.lesson13.homework.transport;
 
 import com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType;
 
+/**
+ * Интерфейс траспорта общего вида
+ */
 public interface Transport {
+
+    /**
+     * Расстояние = 1 километр
+     */
+    double DISTANCE_1_KM = 1;
 
     /**
      * Возвращает наименование транспорта
@@ -41,4 +49,11 @@ public interface Transport {
         }
         return false;
     }
+
+    /**
+     * Возвращает максимальное расстояние, которое может преодолеть транспорт
+     *
+     * @return максимальное расстояние, км
+     */
+    double maxDistance();
 }

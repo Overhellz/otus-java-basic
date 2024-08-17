@@ -1,6 +1,7 @@
 package com.rodiond26.overhellz.otus.basic.lesson13.homework.human;
 
 import com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType;
+import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.HumanPowerTransport;
 import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.Transport;
 import lombok.Getter;
 
@@ -13,24 +14,22 @@ import static com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter.log;
 /**
  * Человек
  */
+@Getter
 public class Human {
 
     /**
      * Имя человека
      */
-    @Getter
     private final String name;
 
     /**
-     * Текущее количество энергии у человека, ккал
+     * Текущее количество энергии у человека, калорий
      */
-    @Getter
     private int caloriesAmount;
 
     /**
      * Список типов местности, по которым может перемещаться человек
      */
-    @Getter
     private final TerrainType[] possibleTerrainTypes = {
             DENSE_FOREST, PLAIN
     };
@@ -38,19 +37,16 @@ public class Human {
     /**
      * Текущий транспорт
      */
-    @Getter
     private Transport currentTransport;
 
     /**
-     * Максимальное количество энергии у человека, ккал
+     * Максимальное количество энергии у человека, калорий
      */
-    @Getter
     public static final int maxCalories = 5000;
 
     /**
-     * Расход энергии человека на 1 километр, ккал
+     * Расход энергии человека на 1 километр, калорий
      */
-    @Getter
     public static final int calories1km = 60;
 
     public Human(String name) {
@@ -103,6 +99,12 @@ public class Human {
      * @param terrainType тип местности
      */
     private void drive(int distance, TerrainType terrainType) {
+        if (currentTransport instanceof HumanPowerTransport) {
+
+
+        }
+
+
         boolean isMoved = this.currentTransport.drive(distance, terrainType);
         if (isMoved) {
             log("Человек смог проехать на транспорте " + this.currentTransport.getType());

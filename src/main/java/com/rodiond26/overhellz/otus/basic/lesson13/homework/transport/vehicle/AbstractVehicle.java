@@ -6,6 +6,7 @@ import lombok.Setter;
 /**
  * Абстрактное транспортное средство
  */
+@Getter
 public abstract class AbstractVehicle {
 
     /**
@@ -16,13 +17,11 @@ public abstract class AbstractVehicle {
     /**
      * Расход топлива на 100 километров, ед.
      */
-    @Getter
     final double fuel100km;
 
     /**
      * Количество топлива у транспортного средства, ед.
      */
-    @Getter
     @Setter
     double fuelAmount;
 
@@ -35,16 +34,6 @@ public abstract class AbstractVehicle {
         }
         this.fuelAmount = fuelAmount;
         this.fuel100km = fuel100km;
-    }
-
-    /**
-     * Возвращает максимальное расстояние,
-     * которое может преодолеть транспорт в зависимости от расхода топлива на 100 км
-     *
-     * @return максимальное расстояние, ед
-     */
-    double maxDistance() {
-        return fuelAmount / fuel100km * DISTANCE_100_KM;
     }
 
     /**
