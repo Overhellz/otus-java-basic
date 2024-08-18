@@ -1,5 +1,8 @@
 package com.rodiond26.overhellz.otus.basic.lesson16.homework;
 
+import com.rodiond26.overhellz.otus.basic.lesson16.homework.exception.IncorrectNameException;
+import com.rodiond26.overhellz.otus.basic.lesson16.homework.exception.IncorrectPhoneNumberException;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,6 +14,8 @@ import static com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter.log;
 public class PhoneBook {
 
     private final Map<String, Set<String>> phones;
+
+    public static final int MAX_PHONE_NUMBER_LENGTH = 10;
 
     public PhoneBook() {
         this.phones = new HashMap<>();
@@ -71,7 +76,8 @@ public class PhoneBook {
      */
     private void checkName(String name) {
         if (name == null || name.isBlank()) {
-            // TODO fix
+            log("Некорректное значение имени: " + name);
+            throw new IncorrectNameException("Некорректное значение имени");
         }
     }
 
@@ -79,8 +85,11 @@ public class PhoneBook {
      * Проверка значения номера телефона перед работой со справочником
      */
     private void checkPhoneNumber(String phoneNumber) {
-        if (phoneNumber == null || phoneNumber.isBlank()) {
-            // TODO fix
+        if (phoneNumber == null
+                || phoneNumber.isBlank()
+                || phoneNumber.length() > MAX_PHONE_NUMBER_LENGTH) {
+            log("Некорректное значение номера телефона: " + phoneNumber);
+            throw new IncorrectPhoneNumberException("Некорректное значение номера телефона");
         }
     }
 
