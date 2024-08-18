@@ -2,7 +2,6 @@ package com.rodiond26.overhellz.otus.basic.lesson13.homework.transport;
 
 import com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType;
 import lombok.Getter;
-import lombok.Setter;
 
 import static com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType.DENSE_FOREST;
 import static com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType.PLAIN;
@@ -12,7 +11,7 @@ import static com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter.log;
  * Велосипед
  */
 @Getter
-public class Bike implements HumanPowerTransport {
+public class Bike implements Transport {
 
     /**
      * Список типов местности, по которым может перемещаться велосипед
@@ -22,18 +21,12 @@ public class Bike implements HumanPowerTransport {
     };
 
     /**
-     * Количество энергии у велосипедиста, калорий
+     * Максимальное расстояние, которое может проехать человек на велосипеде, километров
      */
-    @Setter
-    private int driverEnergy;
+    private final double maxDistance;
 
-    /**
-     * Затраты калорий велосипедиста на 1 км, калорий
-     */
-    @Setter
-    private int driverEnergyPer1km;
-
-    public Bike() {
+    public Bike(double maxDistance) {
+        this.maxDistance = maxDistance;
     }
 
     @Override
@@ -46,25 +39,18 @@ public class Bike implements HumanPowerTransport {
         if (!isPossibleToMove(this.possibleTerrainTypes, terrainType)) {
             return false;
         }
-        if (driverEnergy <= 0) {
-            log("У велосипедиста нет энергии, чтобы ехать");
-            return false;
-        }
-        if ((this.maxDistance() - distance) < 0) {
-            log("У велосипедиста не хватит энергии, чтобы проехать [" + distance + " км]");
-            return false;
-        }
-        log(String.format("Велосипедист может проехать [%.1f км]", this.maxDistance()));
 
+        if ((this.maxDistance() - distance) < 0) {
+            log("Велосипедист не может проехать рассстояние [" + distance + " км]");
+            return false;
+        }
+        log(String.format("Велосипедист может проехать [%d км]", distance));
 
         return false;
     }
 
     @Override
     public double maxDistance() {
-        if (getDriverEnergy() <= 0 || getDriverEnergyPer1km() <= 0) {
-            return 0;
-        }
-        return (double) getDriverEnergy() / getDriverEnergyPer1km();
+        return this.maxDistance;
     }
 }

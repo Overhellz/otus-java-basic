@@ -1,7 +1,6 @@
 package com.rodiond26.overhellz.otus.basic.lesson13.homework.human;
 
 import com.rodiond26.overhellz.otus.basic.lesson13.homework.enums.TerrainType;
-import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.HumanPowerTransport;
 import com.rodiond26.overhellz.otus.basic.lesson13.homework.transport.Transport;
 import lombok.Getter;
 
@@ -99,12 +98,6 @@ public class Human {
      * @param terrainType тип местности
      */
     private void drive(int distance, TerrainType terrainType) {
-        if (currentTransport instanceof HumanPowerTransport) {
-
-
-        }
-
-
         boolean isMoved = this.currentTransport.drive(distance, terrainType);
         if (isMoved) {
             log("Человек смог проехать на транспорте " + this.currentTransport.getType());
@@ -121,10 +114,31 @@ public class Human {
      */
     private void walk(int distance, TerrainType terrainType) {
         if (terrainType == null || !Arrays.asList(possibleTerrainTypes).contains(terrainType)) {
-            log("Человек не может пройти по этой местности");
+            log("Человек не может пройти по этой местности " +
+                    (terrainType == null ? ", которая не задана" : terrainType.getType()));
             return;
         }
+        if (getMaxWalkDistance() < distance) {
+            log("Человек не может пройти расстояние [" + distance + " км]");
+            return;
+        }
+        this.caloriesAmount -= getCalories(distance);
+        log(String.format(
+                "Человек прошел расстояние [%d км] по местности %s, осталось [%d] калорий",
+                distance, terrainType.getType(), this.caloriesAmount));
+    }
 
-        // TODO дописать
+    /**
+     * Возвращает максимальное расстояние, которое человек может пройти пешком, километров
+     */
+    private int getMaxWalkDistance() {
+        return this.caloriesAmount / calories1km;
+    }
+
+    /**
+     * Возвращает количество калорий для прохождения расстояния distance
+     */
+    private int getCalories(int distance) {
+        return distance * calories1km;
     }
 }
