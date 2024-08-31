@@ -1,8 +1,5 @@
 package com.rodiond26.overhellz.otus.basic.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * Класс для вывода сообщений в консоль
  */
