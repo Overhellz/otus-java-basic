@@ -6,8 +6,8 @@ import static java.lang.Math.sin;
 public class Homework14 {
 
     public static void main(String[] args) {
-        implementation1(); // 10141 millis
-        implementation2(); // 2917 millis
+        implementation1(); // 10272188300 nanos
+        implementation2(); //  2913237000 nanos
     }
 
     /**
@@ -16,11 +16,11 @@ public class Homework14 {
     public static void implementation1() {
         double[] array = new double[100_000_000];
 
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         fillArray(array, 0, array.length);
-        long endTime = System.currentTimeMillis();
+        long endTime = System.nanoTime();
 
-        System.out.printf("Время выполнения: %d мс\n", endTime - startTime);
+        System.out.printf("Время выполнения: %d нс\n", endTime - startTime);
     }
 
     /**
@@ -34,7 +34,7 @@ public class Homework14 {
         Thread t3 = new Thread(() -> fillArray(array, 50_000_000, 75_000_000));
         Thread t4 = new Thread(() -> fillArray(array, 75_000_000, array.length));
 
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         t1.start();
         t2.start();
         t3.start();
@@ -48,9 +48,9 @@ public class Homework14 {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        long endTime = System.currentTimeMillis();
+        long endTime = System.nanoTime();
 
-        System.out.printf("Время выполнения: %d мс\n", endTime - startTime);
+        System.out.printf("Время выполнения: %d нс\n", endTime - startTime);
     }
 
     /**
@@ -61,7 +61,7 @@ public class Homework14 {
             throw new IllegalArgumentException(String.format("Неверное значение параметров: from=%d, to=%d ", fromIndex, toIndex));
         }
 
-        for (int i = fromIndex; i < toIndex && i < array.length; i++) {
+        for (int i = fromIndex; i < toIndex; i++) {
             array[i] = calculate(i);
         }
     }
@@ -69,7 +69,7 @@ public class Homework14 {
     /**
      * Возвращает значение элемента массива в зависимости от его индекса
      */
-    public static double calculate(double i) {
+    public static double calculate(int i) {
         return 1.14 * cos(i) * sin(i * 0.2) * cos(i / 1.2);
     }
 }
