@@ -2,7 +2,7 @@ package com.rodiond26.overhellz.otus.basic.lesson19.homework;
 
 import com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,8 +35,27 @@ public class FileEditor {
         return null; // TOD fix
     }
 
+    public void readAndPrint(String fileName) {
+        try (InputStreamReader in = new InputStreamReader(new FileInputStream(fileName))) {
+            int n = in.read();
+            while (n != -1) {
+                System.out.print((char) n);
+                n = in.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    // Вывести содержимое файла в консоль
-
-    // Дописать любую введенную пользователем строку необходимо дописывать в указанный файл
+    public void write(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            System.out.println(">>>>>>> Введите строку:");
+            Scanner scanner = new Scanner(System.in);
+            String str = scanner.nextLine();
+            writer.write(str);
+            writer.newLine();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
