@@ -1,26 +1,24 @@
 package com.rodiond26.overhellz.otus.basic.lesson19.homework;
 
-import com.rodiond26.overhellz.otus.basic.utils.ConsolePrinter;
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.rodiond26.overhellz.otus.basic.utils.CollectionUtil.isEmpty;
-
 public class FileEditor {
 
-    private File currentFile;
-    private String currentDirectoryPath;
+    private final Scanner scanner = new Scanner(System.in);
+    public static final String INPUT_END = "<END>";
 
-    public static final String PROJECT_ROOT_PATH = ".";
-
-    // Вывести список файлов из корневого каталоге проекта
+    /**
+     * Выводит список файлов в каталоге directoryPath
+     */
     public void printFileList(String directoryPath) {
-        currentDirectoryPath = isEmpty(directoryPath) ? PROJECT_ROOT_PATH : directoryPath;
-        this.getFiles(directoryPath).forEach(ConsolePrinter::log);
+        this.getFiles(directoryPath).forEach(System.out::println);
     }
 
+    /**
+     * Возвращает список файлов из каталога directoryPath
+     */
     public Set<String> getFiles(String directoryPath) {
         return Arrays.stream(Objects.requireNonNull(new File(directoryPath).listFiles()))
                 .filter(file -> !file.isDirectory())
@@ -28,32 +26,48 @@ public class FileEditor {
                 .collect(Collectors.toCollection(TreeSet::new));
     }
 
-    // Запросить имя файла, с которым хочет работать пользователь
+    /**
+     * Возврашает имя файла, которое ввел пользователь
+     */
     public String getUserFile() {
-        Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine().trim();
-        return null; // TOD fix
+        String fileName = scanner.nextLine();
+        return fileName.trim();
     }
 
-    public void readAndPrint(String fileName) {
+    /**
+     * Выводит в консоль содержимое файла fileName
+     */
+    public boolean readAndPrint(String fileName) {
         try (InputStreamReader in = new InputStreamReader(new FileInputStream(fileName))) {
             int n = in.read();
             while (n != -1) {
                 System.out.print((char) n);
                 n = in.read();
             }
+            return true;
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл не существует: " + fileName);
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
+    /**
+     * Записывает в файл fileName ввод пользователя
+     */
     public void write(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            System.out.println(">>>>>>> Введите строку:");
-            Scanner scanner = new Scanner(System.in);
-            String str = scanner.nextLine();
-            writer.write(str);
-            writer.newLine();
+            System.out.println(">>>>>>> Введите строку или для окончания ввода напечатайте <END>:");
+            while (true) {
+                String str = scanner.nextLine();
+                if (str.trim().equalsIgnoreCase(INPUT_END)) {
+                    break;
+                }
+                writer.write(str);
+                writer.newLine();
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
