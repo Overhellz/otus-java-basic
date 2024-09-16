@@ -20,8 +20,18 @@ public class FileEditor {
      * Возвращает список файлов из каталога directoryPath
      */
     public Set<String> getFiles(String directoryPath) {
-        return Arrays.stream(Objects.requireNonNull(new File(directoryPath).listFiles()))
-                .filter(file -> !file.isDirectory())
+        File directory = new File(directoryPath);
+        if (!directory.isDirectory()) {
+            throw new IllegalArgumentException("Указанный путь не является директорией");
+        }
+
+        File[] files = directory.listFiles();
+        if (files == null) {
+            return Collections.emptySet();
+        }
+
+        return Arrays.stream(files)
+                .filter(File::isFile)
                 .map(File::getName)
                 .collect(Collectors.toCollection(TreeSet::new));
     }
@@ -30,8 +40,7 @@ public class FileEditor {
      * Возврашает имя файла, которое ввел пользователь
      */
     public String getUserFile() {
-        String fileName = scanner.nextLine();
-        return fileName.trim();
+        return scanner.nextLine().trim();
     }
 
     /**
@@ -49,7 +58,7 @@ public class FileEditor {
             System.out.println("Файл не существует: " + fileName);
             return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Ошибка ввода-вывода: " + e.getMessage());
             return false;
         }
     }
@@ -65,11 +74,10 @@ public class FileEditor {
                 if (str.trim().equalsIgnoreCase(INPUT_END)) {
                     break;
                 }
-                writer.write(str);
-                writer.newLine();
+                writer.write(str + System.lineSeparator());
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Ошибка ввода-вывода: " + e.getMessage());
         }
     }
 }
