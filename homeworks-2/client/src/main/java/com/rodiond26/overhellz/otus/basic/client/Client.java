@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
 
@@ -19,15 +20,19 @@ public class Client {
 
     public void start() {
         try {
+            Scanner scanner = new Scanner(System.in);
             while (true) {
-                String message = in.readUTF();
-                if (message.startsWith("/")) {
-                    if (message.startsWith("/exitok")) {
+                String serverMessage = in.readUTF();
+                if (serverMessage.startsWith("/")) {
+                    if (serverMessage.startsWith("/exitok")) {
                         break;
                     }
                 } else {
-                    System.out.println(message);
+                    System.out.println(serverMessage);
                 }
+                System.out.println("> ");
+                String clientMessage = scanner.nextLine();
+                out.writeUTF(clientMessage);
             }
         } catch (IOException e) {
             System.err.println("Ошибка ввода-вывода: " + e.getMessage());
