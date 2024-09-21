@@ -1,67 +1,47 @@
 package com.rodiond26.overhellz.otus.basic.client;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
+@RequiredArgsConstructor
+@Getter
 public class Client {
 
-    private Socket socket;
-    private DataInputStream in;
-    private DataOutputStream out;
-
-    public Client(String hostAddress, int port) throws IOException {
-        socket = new Socket(hostAddress, port);
-        in = new DataInputStream(socket.getInputStream());
-        out = new DataOutputStream(socket.getOutputStream());
-    }
+    private final String host;
+    private final int port;
 
     public void start() {
-        try {
-            Scanner scanner = new Scanner(System.in);
+        try (Socket socket = new Socket(host, port);
+             DataInputStream in = new DataInputStream(socket.getInputStream());
+             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+             Scanner scanner = new Scanner(System.in);
+        ) {
+            System.out.println("<Подключение к серверу>");
             while (true) {
-                String serverMessage = in.readUTF();
-                if (serverMessage.startsWith("/")) {
-                    if (serverMessage.startsWith("/exitok")) {
-                        break;
-                    }
-                } else {
-                    System.out.println(serverMessage);
+                String serverStartMessage = in.readUTF();
+                System.out.print(serverStartMessage);
+
+                System.out.print("> ");
+                String userExpression = scanner.nextLine();
+                if (userExpression.trim().equalsIgnoreCase("<exit>")) {
+                    break;
                 }
-                System.out.println("> ");
-                String clientMessage = scanner.nextLine();
-                out.writeUTF(clientMessage);
+                out.writeUTF(userExpression);
+
+                String serverResultMessage = in.readUTF();
+                System.out.println("> Результат: " + serverResultMessage);
+                System.out.println();
             }
         } catch (IOException e) {
             System.err.println("Ошибка ввода-вывода: " + e.getMessage());
         } finally {
-            disconnect();
-        }
-    }
-
-    public void disconnect() {
-        try {
-            if (in != null) {
-                in.close();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            if (out != null) {
-                out.close();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            if (socket != null) {
-                socket.close();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("<Отключение>");
         }
     }
 }
