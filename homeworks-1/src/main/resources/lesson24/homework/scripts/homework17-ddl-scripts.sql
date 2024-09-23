@@ -3,30 +3,30 @@ CREATE SCHEMA questions;
 
 -- Создать таблицу с вопросами
 CREATE TABLE questions.questions (
-    question_id    SERIAL        NOT NULL,
-    question_text  VARCHAR(256)  NOT NULL,
-    group_id       INTEGER       NOT NULL,
-    is_active 	   BOOLEAN 	     NOT NULL DEFAULT TRUE
+    question_id    SERIAL   NOT NULL,
+    question_text  TEXT     NOT NULL,
+    group_id       INTEGER  NOT NULL,
+    is_active      BOOLEAN  NOT NULL DEFAULT TRUE
 );
 ALTER TABLE ONLY questions.questions
-    ADD CONSTRAINT questions_pk PRIMARY KEY (question_id);
+    ADD CONSTRAINT pk_questions PRIMARY KEY (question_id);
 
 -- Создать таблицу с ответами
 CREATE TABLE questions.answers (
-    question_id  INTEGER       NOT NULL,
-    answer_id    INTEGER       NOT NULL,
-	answer_text  VARCHAR(256)  NOT NULL,
-    is_correct 	 BOOLEAN 	   NOT NULL,
-    is_active 	 BOOLEAN 	   NOT NULL DEFAULT TRUE
+    question_id  INTEGER  NOT NULL,
+    answer_id    INTEGER  NOT NULL,
+    answer_text  TEXT     NOT NULL,
+    is_correct   BOOLEAN  NOT NULL,
+    is_active    BOOLEAN  NOT NULL DEFAULT TRUE
 );
 ALTER TABLE ONLY questions.answers
-    ADD CONSTRAINT answers_pk
-	PRIMARY KEY (question_id, answer_id);
+    ADD CONSTRAINT pk_answers
+    PRIMARY KEY (question_id, answer_id);
 ALTER TABLE questions.answers
     ADD CONSTRAINT fk_answers_question_id
-	FOREIGN KEY (question_id)
-	REFERENCES questions.questions(question_id)
-	ON DELETE CASCADE;
+    FOREIGN KEY (question_id)
+    REFERENCES questions.questions(question_id)
+    ON DELETE CASCADE;
 
 -- Добавить в таблицу тестовые данные
 INSERT INTO questions.questions(question_text, group_id, is_active)
