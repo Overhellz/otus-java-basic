@@ -10,6 +10,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+@Getter
 public class ClientHandler {
 
     private final Server server;
@@ -17,7 +18,6 @@ public class ClientHandler {
     private final DataInputStream in;
     private final DataOutputStream out;
 
-    @Getter
     @Setter
     private String username;
 

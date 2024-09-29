@@ -9,11 +9,11 @@ import java.util.Optional;
 
 import static com.rodiond26.overhellz.otus.basic.model.UserRole.USER;
 
-public class UserProfileRepositoryImpl implements UserProfileRepository {
+public class UserProfileInMemoryRepositoryImpl implements UserProfileRepository {
 
     private final List<UserProfile> userProfiles;
 
-    public UserProfileRepositoryImpl() {
+    public UserProfileInMemoryRepositoryImpl() {
         userProfiles = new ArrayList<>(List.of(
                 new UserProfile("login1", "password1", "name1", USER),
                 new UserProfile("login2", "password2", "name2", USER),

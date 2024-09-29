@@ -12,12 +12,12 @@ import java.util.List;
 public class Server {
 
     private final int port;
-    private final List<ClientHandler> clients;
+    private final List<ClientHandler> clientHandlerList;
     private final AuthenticationProvider authenticationProvider;
 
     public Server(int port, AuthenticationProvider authenticationProvider) {
         this.port = port;
-        this.clients = new ArrayList<>();
+        this.clientHandlerList = new ArrayList<>();
         this.authenticationProvider = authenticationProvider;
     }
 
@@ -35,14 +35,18 @@ public class Server {
     }
 
     public synchronized void subscribe(ClientHandler clientHandler) {
-        clients.add(clientHandler);
+        clientHandlerList.add(clientHandler);
     }
 
     public synchronized void unsubscribe(ClientHandler clientHandler) {
-        clients.remove(clientHandler);
+        clientHandlerList.remove(clientHandler);
     }
 
     public synchronized void broadcast(String serverMessage) {
-        clients.forEach(clientHandler -> clientHandler.sendMessage(serverMessage));
+        clientHandlerList.forEach(clientHandler -> clientHandler.sendMessage(serverMessage));
+    }
+
+    public boolean isUserIsConnected(String name) {
+        return clientHandlerList.stream().anyMatch(clientHandler -> clientHandler.getUsername().equals(name));
     }
 }

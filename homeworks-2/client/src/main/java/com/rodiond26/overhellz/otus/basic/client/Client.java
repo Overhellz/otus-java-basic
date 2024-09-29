@@ -1,6 +1,5 @@
 package com.rodiond26.overhellz.otus.basic.client;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Closeable;
@@ -11,53 +10,53 @@ import java.net.Socket;
 import java.util.Scanner;
 
 @RequiredArgsConstructor
-@Getter
 public class Client {
 
     private final String host;
     private final int port;
 
-    public void start() {
-        try (Socket socket = new Socket(host, port);
-             DataInputStream in = new DataInputStream(socket.getInputStream());
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-             Scanner scanner = new Scanner(System.in);
-        ) {
-            new Thread(() -> {
-                try {
-                    System.out.println("<Подключение к серверу>");
-                    while (true) {
-                        String serverMessage = in.readUTF();
-                        if (serverMessage.startsWith("/")) {
-                            if (serverMessage.startsWith("/exitok")) {
-                                break;
-                            }
-                        } else {
-                            System.out.println(serverMessage);
-                        }
-                    }
-                } catch (IOException e) {
-                    System.err.println("Ошибка ввода-вывода: " + e.getMessage());
-                } finally {
-                    close(scanner);
-                    close(out);
-                    close(in);
-                    close(socket);
-                    System.out.println("<Отключение>");
-                }
-            }).start();
+    public void start() throws IOException {
+        Socket socket = new Socket(host, port);
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        Scanner scanner = new Scanner(System.in);
 
-            while (true) {
-                String clientMessage = scanner.nextLine();
-                out.writeUTF(clientMessage);
-                if (clientMessage.startsWith("/exit")) {
-                    break;
+        new Thread(() -> {
+            System.out.println("Успешное подключение к серверу. Порт: " + port);
+            try {
+                while (true) {
+                    String serverMessage = in.readUTF();
+                    if (serverMessage.startsWith("/")) {
+                        if (serverMessage.startsWith("/exitok")) {
+                            break;
+                        }
+                        if (serverMessage.startsWith("/authok ")) {
+                            System.out.println("Аутентификация прошла успешно с именем пользователя: " + serverMessage.split("\\s+")[1]);
+                        }
+                        if (serverMessage.startsWith("/regok ")) {
+                            System.out.println("регистрация прошла успешно с именем пользователя: " + serverMessage.split("\\s+")[1]);
+                        }
+                    } else {
+                        System.out.println(serverMessage);
+                    }
                 }
+            } catch (IOException e) {
+                System.err.println("Ошибка ввода-вывода: " + e.getMessage());
+            } finally {
+                close(scanner);
+                close(out);
+                close(in);
+                close(socket);
+                System.out.println("Подключение к серверу завершено");
             }
-        } catch (IOException e) {
-            System.err.println("Ошибка ввода-вывода: " + e.getMessage());
-        } finally {
-            System.out.println("<Отключение>");
+        }).start();
+
+        while (true) {
+            String clientMessage = scanner.nextLine();
+            out.writeUTF(clientMessage);
+            if (clientMessage.startsWith("/exit")) {
+                break;
+            }
         }
     }
 

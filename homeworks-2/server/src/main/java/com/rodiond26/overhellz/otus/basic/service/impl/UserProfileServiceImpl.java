@@ -5,6 +5,8 @@ import com.rodiond26.overhellz.otus.basic.repository.UserProfileRepository;
 import com.rodiond26.overhellz.otus.basic.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class UserProfileServiceImpl implements UserProfileService {
 
@@ -23,5 +25,10 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public void add(UserProfile userProfile) {
         repository.add(userProfile);
+    }
+
+    @Override
+    public Optional<UserProfile> findByLogin(String login) {
+        return repository.findByLogin(login);
     }
 }
