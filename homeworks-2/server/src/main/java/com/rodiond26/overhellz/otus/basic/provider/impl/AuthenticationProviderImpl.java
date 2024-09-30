@@ -87,7 +87,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         }
 
         String userName = userProfileOptional.get().getName();
-        if (server.isUserIsConnected(userName)) {
+        if (server.isConnected(userName)) {
             return sendIsNotValidatedMessage(clientHandler, USER_IS_ALREADY_CONNECTED_MESSAGE);
         }
 

@@ -28,13 +28,14 @@ public class Client {
                     String serverMessage = in.readUTF();
                     if (serverMessage.startsWith("/")) {
                         if (serverMessage.startsWith("/exitok")) {
+                            System.out.println("Подтверждение выхода");
                             break;
                         }
                         if (serverMessage.startsWith("/authok ")) {
                             System.out.println("Аутентификация прошла успешно с именем пользователя: " + serverMessage.split("\\s+")[1]);
                         }
                         if (serverMessage.startsWith("/regok ")) {
-                            System.out.println("регистрация прошла успешно с именем пользователя: " + serverMessage.split("\\s+")[1]);
+                            System.out.println("Регистрация прошла успешно с именем пользователя: " + serverMessage.split("\\s+")[1]);
                         }
                     } else {
                         System.out.println(serverMessage);
