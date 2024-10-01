@@ -1,5 +1,6 @@
 package com.rodiond26.overhellz.otus.basic.handler;
 
+import com.rodiond26.overhellz.otus.basic.model.UserRole;
 import com.rodiond26.overhellz.otus.basic.server.Server;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,8 @@ public class ClientHandler {
 
     @Setter
     private String username;
+    @Setter
+    private UserRole role;
 
     public ClientHandler(Server server, Socket clientSocket) throws IOException {
         this.server = server;
@@ -103,6 +106,37 @@ public class ClientHandler {
                         // пользователи онлайн
                         if (clientMessage.startsWith("/online")) {
                             sendMessage("Пользователи онлайн: " + server.getAuthenticateUserNames());
+                        }
+
+                        // /kick username
+                        if (clientMessage.startsWith("/kick ")) {
+                            String[] cmd = clientMessage.split(" ");
+                            if (cmd.length < 2) {
+                                sendMessage("Неверный формат команды /kick");
+                                continue;
+                            }
+
+                            String userName = cmd[1];
+                            Optional<ClientHandler> clientHandlerOptional = server.getClientHandlerList().stream()
+                                    .filter(handler -> handler.getUsername().equalsIgnoreCase(userName))
+                                    .findFirst();
+
+                            if (clientHandlerOptional.isEmpty()) {
+                                sendMessage("В чате нет пользователя " + userName);
+                                continue;
+                            }
+                            if (clientHandlerOptional.get().role.equals(UserRole.ADMIN)) {
+                                sendMessage("Нельзя отключить администратора " + userName);
+                                continue;
+                            }
+                            if (!this.role.equals(UserRole.ADMIN)) {
+                                sendMessage("Нет прав для отключения пользователя: " + userName);
+                                continue;
+                            }
+
+                            server.unsubscribe(clientHandlerOptional.get());
+                            clientHandlerOptional.get().disconnect();
+                            sendMessage("Пользователь " + userName + " был отключен");
                         }
                     } else {
                         server.broadcast(username + " : " + clientMessage);
