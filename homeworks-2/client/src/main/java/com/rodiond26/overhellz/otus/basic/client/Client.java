@@ -1,8 +1,8 @@
 package com.rodiond26.overhellz.otus.basic.client;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,38 +10,64 @@ import java.net.Socket;
 import java.util.Scanner;
 
 @RequiredArgsConstructor
-@Getter
 public class Client {
 
     private final String host;
     private final int port;
 
-    public void start() {
-        try (Socket socket = new Socket(host, port);
-             DataInputStream in = new DataInputStream(socket.getInputStream());
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-             Scanner scanner = new Scanner(System.in);
-        ) {
-            System.out.println("<Подключение к серверу>");
-            while (true) {
-                String serverStartMessage = in.readUTF();
-                System.out.print(serverStartMessage);
+    public void start() throws IOException {
+        Socket socket = new Socket(host, port);
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        Scanner scanner = new Scanner(System.in);
 
-                System.out.print("> ");
-                String userExpression = scanner.nextLine();
-                if (userExpression.trim().equalsIgnoreCase("<exit>")) {
-                    break;
+        new Thread(() -> {
+            System.out.println("Успешное подключение к серверу. Порт: " + port);
+            try {
+                while (true) {
+                    String serverMessage = in.readUTF();
+                    if (serverMessage.startsWith("/")) {
+                        if (serverMessage.startsWith("/exitok")) {
+                            System.out.println("Подтверждение выхода");
+                            break;
+                        }
+                        if (serverMessage.startsWith("/authok ")) {
+                            System.out.println("Аутентификация прошла успешно с именем пользователя: " + serverMessage.split("\\s+")[1]);
+                        }
+                        if (serverMessage.startsWith("/regok ")) {
+                            System.out.println("Регистрация прошла успешно с именем пользователя: " + serverMessage.split("\\s+")[1]);
+                        }
+                    } else {
+                        System.out.println(serverMessage);
+                    }
                 }
-                out.writeUTF(userExpression);
+            } catch (IOException e) {
+                System.err.println("Ошибка ввода-вывода: " + e.getMessage());
+            } finally {
+                close(scanner);
+                close(out);
+                close(in);
+                close(socket);
+                System.out.println("Подключение к серверу завершено");
+            }
+        }).start();
 
-                String serverResultMessage = in.readUTF();
-                System.out.println("> Результат: " + serverResultMessage);
-                System.out.println();
+        while (true) {
+            String clientMessage = scanner.nextLine();
+            out.writeUTF(clientMessage);
+            if (clientMessage.startsWith("/exit")) {
+                break;
+            }
+        }
+    }
+
+    private void close(Closeable closeable) {
+        try {
+            if (closeable != null) {
+                closeable.close();
             }
         } catch (IOException e) {
             System.err.println("Ошибка ввода-вывода: " + e.getMessage());
-        } finally {
-            System.out.println("<Отключение>");
         }
     }
 }
