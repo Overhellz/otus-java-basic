@@ -2,6 +2,7 @@ package com.rodiond26.overhellz.otus.basic.provider.impl;
 
 import com.rodiond26.overhellz.otus.basic.handler.ClientHandler;
 import com.rodiond26.overhellz.otus.basic.model.UserProfile;
+import com.rodiond26.overhellz.otus.basic.model.UserRole;
 import com.rodiond26.overhellz.otus.basic.provider.AuthenticationProvider;
 import com.rodiond26.overhellz.otus.basic.server.Server;
 import com.rodiond26.overhellz.otus.basic.service.UserProfileService;
@@ -87,11 +88,13 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         }
 
         String userName = userProfileOptional.get().getName();
+        UserRole userRole = userProfileOptional.get().getRole();
         if (server.isConnected(userName)) {
             return sendIsNotValidatedMessage(clientHandler, USER_IS_ALREADY_CONNECTED_MESSAGE);
         }
 
         clientHandler.setUsername(userName);
+        clientHandler.setRole(userRole);
         server.subscribe(clientHandler);
         clientHandler.sendMessage("/authok " + userName);
         return true;
