@@ -2,10 +2,10 @@ package com.rodiond26.overhellz.otus.basic.config;
 
 public final class PostgreSqlDbConfig {
 
-    private final String url = "jdbc:postgresql://localhost:5432/postgres";
-    private final String userName = "postgres";
-    private final String userPassword = "postgres";
-    private final boolean isNeedToInitialize = true;
+    private String url = "jdbc:postgresql://localhost:5432/postgres";
+    private String userName = "postgres";
+    private String userPassword = "postgres";
+    private boolean isNeedToInitialize = true;
 
     public String getDatabaseUrl() {
         return url;
