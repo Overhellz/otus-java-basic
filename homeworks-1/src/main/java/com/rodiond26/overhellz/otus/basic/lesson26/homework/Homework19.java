@@ -1,34 +1,38 @@
 package com.rodiond26.overhellz.otus.basic.lesson26.homework;
 
+import static com.rodiond26.overhellz.otus.basic.lesson26.homework.Box.move;
+
 public class Homework19 {
 
     public static void main(String[] args) {
 
-        Fruit fruit1 = new Fruit(10);
-        Fruit fruit2 = new Apple(5);
-        Fruit fruit3 = new Orange(6);
+        Box<Apple> appleBox = new Box<>();
+        for (int i = 0; i < 5; i++) {
+            appleBox.put(new Apple(i));
+        }
+        System.out.println(appleBox);
 
-        Box<Fruit> box1 = new Box<>();
-        box1.put(fruit1);
-        box1.put(fruit2);
-        box1.put(fruit3);
+        Box<Orange> orangeBox = new Box<>();
+        for (int i = 5; i < 10; i++) {
+            orangeBox.put(new Orange(i));
+        }
+        System.out.println(orangeBox);
 
-        Fruit fruit4 = new Fruit(4);
-        Fruit fruit5 = new Apple(6);
-        Fruit fruit6 = new Orange(8);
-        Box<Fruit> box2 = new Box<>();
-        box2.put(fruit4);
-        box2.put(fruit5);
-        box2.put(fruit6);
+        Box<Fruit> fruitBox = new Box<>();
+        System.out.println(fruitBox); // list=[]
 
-        System.out.println(box1);
-        System.out.println(box2);
+        move(fruitBox, appleBox);
+        System.out.println(fruitBox);
+        // Box(list=[Apple{weight=0}, Apple{weight=1}, Apple{weight=2}, Apple{weight=3}, Apple{weight=4}])
 
-        System.out.println(box1.getWeight());
-        System.out.println(box2.getWeight());
+        move(fruitBox, orangeBox);
+        System.out.println(fruitBox);
+        // Box(list=[Apple{weight=0}, Apple{weight=1}, Apple{weight=2}, Apple{weight=3}, Apple{weight=4},
+        // Orange{weight=5}, Orange{weight=6}, Orange{weight=7}, Orange{weight=8}, Orange{weight=9}])
 
-        box1.putAll(box2.getAll());
-        System.out.println(box1);
-        System.out.println(box2);
+        System.out.println(fruitBox.getWeight()); // 45
+
+        System.out.println(appleBox); // list=[]
+        System.out.println(orangeBox); // list=[]
     }
 }

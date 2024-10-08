@@ -5,6 +5,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 @Getter
 @ToString
@@ -20,21 +21,22 @@ public class Box<T extends Fruit> implements Comparable<Box<Fruit>> {
         this.list.add(t);
     }
 
-    public void putAll(List<T> list) {
-        this.list.addAll(list);
+    public static <T> void move(Box<? super Fruit> dest, Box<? extends Fruit> src) {
+        int srcSize = src.getList().size();
+        ListIterator<? extends Fruit> srcIterator = src.getList().listIterator();
+
+        for (int i = 0; i < srcSize; i++) {
+            dest.getList().add(srcIterator.next());
+            srcIterator.remove();
+        }
     }
 
-    public T get(T t) {
-        return this.list.stream()
-                .filter(fruit -> fruit.equals(t))
-                .findAny()
-                .orElse(null);
+    public boolean contains(T t) {
+        return this.list.contains(t);
     }
 
     public List<T> getAll() {
-        List<T> result = this.list;
-        this.list = new ArrayList<>();
-        return result;
+        return this.list;
     }
 
     public int getWeight() {
