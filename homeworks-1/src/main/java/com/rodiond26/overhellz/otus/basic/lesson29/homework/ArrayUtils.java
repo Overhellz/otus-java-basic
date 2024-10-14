@@ -59,7 +59,7 @@ public final class ArrayUtils {
      * иначе возвращает false
      */
     public boolean isContainOnlyValues(int[] arr, int first, int second) {
-        if (arr == null || arr.length < 2) {
+        if (arr == null || arr.length == 0) {
             return false;
         }
 

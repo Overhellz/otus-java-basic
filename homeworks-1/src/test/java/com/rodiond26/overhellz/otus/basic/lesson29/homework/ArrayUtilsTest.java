@@ -1,6 +1,13 @@
 package com.rodiond26.overhellz.otus.basic.lesson29.homework;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static com.rodiond26.overhellz.otus.basic.lesson29.homework.ArrayUtils.NO_VALUE_IN_ARRAY_CODE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,38 +103,31 @@ class ArrayUtilsTest {
         );
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("provideIncorrectArrays")
     @DisplayName("Проверки массива arr, что он содержит некорректные значения")
-    void isContainOnlyValues_whenIncorrectValues() {
+    void isContainOnlyValues_whenIncorrectValues(int[] arr, int first, int second) {
+        assertFalse(util.isContainOnlyValues(arr, first, second));
+    }
+
+    static Stream<Arguments> provideIncorrectArrays() {
         int first = 1;
         int second = 2;
         int third = 3;
-        int[] arr1 = {first, second, third};
-        int[] arr2 = {first, third};
-        int[] arr3 = {second, third};
-        int[] arr4 = {third};
-        int[] arr5 = {third, third};
-        int[] arr6 = {third, third, third};
-        int[] arr7 = {third, third, third, third, third, third};
-        int[] arr8 = {first, first};
-        int[] arr9 = {first, first, first, first};
-        int[] arr10 = {second, second};
-        int[] arr11 = {second, second, second};
-        int[] arr12 = {second, second, second, third};
 
-        assertAll(
-                () -> assertFalse(util.isContainOnlyValues(arr1, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr2, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr3, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr4, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr5, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr6, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr7, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr8, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr9, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr10, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr11, first, second)),
-                () -> assertFalse(util.isContainOnlyValues(arr12, first, second))
+        return Stream.of(
+                Arguments.of(new int[]{first, second, third}, first, second),
+                Arguments.of(new int[]{first, third}, first, second),
+                Arguments.of(new int[]{second, third}, first, second),
+                Arguments.of(new int[]{third}, first, second),
+                Arguments.of(new int[]{third, third}, first, second),
+                Arguments.of(new int[]{third, third, third}, first, second),
+                Arguments.of(new int[]{third, third, third, third, third, third}, first, second),
+                Arguments.of(new int[]{first, first}, first, second),
+                Arguments.of(new int[]{first, first, first, first}, first, second),
+                Arguments.of(new int[]{second, second}, first, second),
+                Arguments.of(new int[]{second, second, second}, first, second),
+                Arguments.of(new int[]{second, second, second, third}, first, second)
         );
     }
 }
