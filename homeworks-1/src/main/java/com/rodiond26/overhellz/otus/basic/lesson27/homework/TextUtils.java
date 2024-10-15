@@ -17,6 +17,9 @@ public final class TextUtils {
     public TextUtils() {
     }
 
+    /**
+     * Возвращает количество подстрок substring в файле fileName
+     */
     public int countSubstringInFile(String fileName, String substring) {
         int count = 0;
 
@@ -40,22 +43,32 @@ public final class TextUtils {
         return count;
     }
 
+    /**
+     * Возвращает количество подстрок substring в строке input
+     */
     public int findOccurrencesOfSubstring(String input, String substring, Pattern pattern) {
         if (input == null || input.isEmpty()) {
             return 0;
         }
-        if (substring == null || substring.isEmpty()) {
+        if (isIncorrectSubstring(substring)) {
             return 0;
         }
         if (input.length() < substring.length()) {
             return 0;
         }
 
-        Matcher matcher = pattern.matcher(input); // TODO check
+        Matcher matcher = pattern.matcher(input);
         int count = 0;
         while (matcher.find()) {
             count++;
         }
         return count;
+    }
+
+    /**
+     * Возвращает строку substring на некорректность
+     */
+    public boolean isIncorrectSubstring(String substring) {
+        return substring == null || substring.isEmpty();
     }
 }
