@@ -25,12 +25,10 @@ public final class TextUtils {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
-            Pattern pattern = Pattern.compile(substring);
+            Pattern pattern = Pattern.compile(Pattern.quote(substring));
 
             while ((line = reader.readLine()) != null) {
-                for (String word : line.split(" ")) {
-                    count += findOccurrencesOfSubstring(word, substring, pattern);
-                }
+                count += findOccurrencesOfSubstring(line, substring, pattern);
             }
         } catch (FileNotFoundException e) {
             LOGGER.error("Не удалось найти файл {}", fileName);
