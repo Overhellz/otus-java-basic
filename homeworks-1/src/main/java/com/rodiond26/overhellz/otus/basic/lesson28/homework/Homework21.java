@@ -1,5 +1,7 @@
 package com.rodiond26.overhellz.otus.basic.lesson28.homework;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Predicate;
 
 public class Homework21 {
@@ -10,36 +12,28 @@ public class Homework21 {
     public static void main(String[] args) {
         Homework21 app = new Homework21();
         int count = 5;
+        int nThreads = 3;
 
-        new Thread(() -> app.printC(count)).start();
-        new Thread(() -> app.printB(count)).start();
-        new Thread(() -> app.printA(count)).start();
+        ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
+        for (int i = 0; i < count; i++) {
+            executorService.execute(() -> app.print("A", app.conditionToPrintA()));
+            executorService.execute(() -> app.print("B", app.conditionToPrintB()));
+            executorService.execute(() -> app.print("C", app.conditionToPrintC()));
+        }
+        executorService.shutdown();
     }
 
-    public void printA(int count) {
-        print("A", count, conditionToPrintA());
-    }
-
-    public void printB(int count) {
-        print("B", count, conditionToPrintB());
-    }
-
-    public void printC(int count) {
-        print("C", count, conditionToPrintC());
-    }
-
-    public void print(String val, int count, Predicate<String> predicate) {
+    public void print(String val, Predicate<String> predicate) {
         synchronized (monitor) {
             try {
-                for (int i = 0; i < count; i++) {
-                    while (predicate.test(str)) {
-                        monitor.wait();
-                    }
-                    str = val;
-                    System.out.print(str);
-                    monitor.notifyAll();
+                while (predicate.test(str)) {
+                    monitor.wait();
                 }
+                str = val;
+                System.out.print(str);
+                monitor.notifyAll();
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
         }
