@@ -6,6 +6,6 @@ public class Application {
     // 2. Добавить обработку запросов в тред пуле
 
     public static void main(String[] args) {
-        new HttpServer(8189).start();
+        new HttpServer(8189, 10).start();
     }
 }
