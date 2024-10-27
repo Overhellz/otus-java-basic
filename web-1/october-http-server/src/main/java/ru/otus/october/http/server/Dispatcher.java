@@ -35,6 +35,10 @@ public class Dispatcher {
         } catch (Exception e) {
             e.printStackTrace();
             defaultInternalServerErrorProcessor.execute(request, out);
+        } finally {
+            if (out != null) {
+                out.close();
+            }
         }
     }
 }
