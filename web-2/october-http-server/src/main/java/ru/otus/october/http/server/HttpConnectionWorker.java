@@ -20,7 +20,7 @@ public class HttpConnectionWorker {
 
             String rawRequest = new String(buffer, 0, n);
             HttpRequest request = new HttpRequest(rawRequest);
-            request.info(true);
+            request.info();
             dispatcher.execute(request, socket.getOutputStream());
         } catch (IOException e) {
             Thread.currentThread().interrupt();
