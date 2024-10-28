@@ -1,5 +1,7 @@
 package ru.otus.october.http.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.otus.october.http.server.app.ItemsRepository;
 import ru.otus.october.http.server.processors.*;
 
@@ -9,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Dispatcher {
+
+    private static final Logger LOGGER = LogManager.getLogger(Dispatcher.class.getName());
+
     private Map<String, RequestProcessor> processors;
     private RequestProcessor defaultNotFoundProcessor;
     private RequestProcessor defaultInternalServerErrorProcessor;
@@ -30,16 +35,18 @@ public class Dispatcher {
 
     public void execute(HttpRequest request, OutputStream out) throws IOException {
         try {
+            LOGGER.debug("Пришел запрос: {}", request);
             if (!processors.containsKey(request.getRoutingKey())) {
                 defaultNotFoundProcessor.execute(request, out);
                 return;
             }
             processors.get(request.getRoutingKey()).execute(request, out);
         } catch (BadRequestException e) {
+            LOGGER.error("Ошибка Bad Request при запросе {}: {} = {}", request, e.getCause(), e.getStackTrace());
             request.setException(e);
             defaultBadRequestProcessor.execute(request, out);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка при запросе {}: {} = {}", request, e.getCause(), e.getStackTrace());
             defaultInternalServerErrorProcessor.execute(request, out);
         } finally {
             if (out != null) {
